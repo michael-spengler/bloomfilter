@@ -5,7 +5,9 @@ Bloom Filters are efficient probabilistic data structures which you can e.g. use
 ## Usage Examples
 
 ```sh
-deno run https://deno.land/x/bloom-filter/usage-example.ts
+
+deno run https://deno.land/x/bloomfilter/usage-example.ts
+
 ```
 
 
@@ -28,5 +30,8 @@ actualTestResult = bloomFilter.test("cat")
 console.log(actualTestResult)
 
 ```
+
+---
+  
 
 For further examples you can check the [unit tests]().

@@ -1,5 +1,4 @@
-// import { BloomFilter, EBloomBool } from "https://deno.land/x/bloom-filter/mod.ts"
-import { BloomFilter } from "./mod.ts"
+import { BloomFilter } from "https://deno.land/x/bloomfilter/mod.ts"
 
 const bloomFilter = new BloomFilter(128)
 

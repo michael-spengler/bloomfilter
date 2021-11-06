@@ -39,7 +39,7 @@ export class BloomFilter {
 
     }
 
-    private generateHash(entry: string) {
+    private generateHash(entry: string): number {
 
         return crc32.str(entry) * -1
 
