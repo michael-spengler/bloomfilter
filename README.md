@@ -1,6 +1,6 @@
 # Bloom Filter
 
-Bloom Filters are efficient probabilistic data structures which you can e.g. use to check whether entries are potentially already [in an array or not](https://www.youtube.com/watch?v=gBygn3cVP80).
+Bloom Filters are efficient probabilistic data structures which you can use to check whether entries are potentially already [in an array or not](https://www.youtube.com/watch?v=gBygn3cVP80).
 
 ## Usage Examples
 
@@ -28,5 +28,6 @@ actualTestResult = bloomFilter.test("cat")
 console.log(actualTestResult)
 
 ```
-
-For further examples you can check the [unit tests]().
+  
+## Further Examples  
+For further examples you can check the [unit tests](https://github.com/michael-spengler/bloom-filter/blob/main/src/bloom-filter.spec.ts).
