@@ -34,5 +34,5 @@ console.log(actualTestResult)
 ---
   
 
-For further examples you can check the [unit tests]().
+For further examples you can check the [unit tests](https://github.com/michael-spengler/bloomfilter/blob/main/src/bloom-filter.spec.ts).
   
