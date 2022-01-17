@@ -3,7 +3,7 @@ import { BloomFilter, EBloomBool } from "./bloom-filter.ts"
 
 Deno.test("should return EBloomBool.NO if entry is not yet added", async () => {
 
-    const bloomFilter = new BloomFilter(128)
+    const bloomFilter = BloomFilter.getInstanceBasedOnNumberOfBits(128)
 
     const testArray = ["dog", "chicken", "cat"]
 
@@ -22,9 +22,19 @@ Deno.test("should return EBloomBool.NO if entry is not yet added", async () => {
 
 })
 
+Deno.test("should return optimal number of Bitsets for given expected array size + falsePositiveValue", async () => {
+    const falsePositiveProbability = 0.1
+    const actualResult = BloomFilter.getOptimalNumberOfBitsAndHashFunctions(1000, falsePositiveProbability) // fp / fp + true negative 
+
+    console.log(`if you want to achieve a falsePositiveProbability of ${falsePositiveProbability}, I recommend to use ${actualResult} bits.`)
+    const expectedResult = 4793
+
+    assertEquals(actualResult, expectedResult)
+})
+
 Deno.test("should return EBloomBool.PERHAPS if entry is potentially added", async () => {
 
-    const bloomFilter = new BloomFilter(128)
+    const bloomFilter = BloomFilter.getInstanceBasedOnNumberOfBits(128)
 
     const testArray = ["dog", "chicken", "cat"]
 

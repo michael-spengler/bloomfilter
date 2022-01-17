@@ -35,4 +35,14 @@ console.log(actualTestResult)
   
 
 For further examples you can check the [unit tests]().
-  
+
+
+## Considering Optimization Options
+
+### Number of Hash Functions
+Increasing the number of hash functions used for the Bloomfilter (Bitset) population increases the probability that a specific item from the array is in fact represented by those bits. 
+
+The downside is that with this the likelyhood that e.g. (almost) all Bits are set to 1 resulting in unnecessarily frequent "Perhaps" responses...  
+
+### Formulas
+tbd.
