@@ -15,7 +15,13 @@ deno run https://deno.land/x/bloomfilter/usage-example.ts
 
 import { BloomFilter } from "https://deno.land/x/bloomfilter/mod.ts"
 
-const bloomFilter = new BloomFilter(128)
+const numberOfExpectedItemsInArray = 10000
+const falsePositiveRate = 0.1 // 10 percent
+
+const numberOfBitsInBitset = BloomFilter.getOptimalNumberOfBits(numberOfExpectedItemsInArray, falsePositiveRate)
+const numberOfHashFunctions = BloomFilter.getOptimalNumberOfHashFunctions(numberOfBitsInBitset, numberOfExpectedItemsInArray))
+
+const bloomFilter = new BloomFilter(numberOfBitsInBitset, numberOfHashFunctions)
 
 const testArray = ["dog", "chicken", "cat"]
 
@@ -37,12 +43,11 @@ For further examples you can check the [unit tests](https://github.com/michael-s
 
 
 ## Considering Optimization Options
+See // https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
 
 ### Number of Hash Functions
-Increasing the number of hash functions used for the Bloomfilter (Bitset) population increases the probability that a specific item from the array is in fact represented by those bits. 
+Increasing the number of hash functions used for the Bloomfilter (Bitset) population increases the probability that a specific item from the array is in fact represented by a specific (set) of bit(s). 
 
-The downside is that with this the likelyhood that e.g. (almost) all Bits are set to 1 resulting in unnecessarily frequent "Perhaps" responses...  
+The downside is that with more hash functions the likelyhood that e.g. (almost) all Bits are set to 1 resulting in unnecessarily frequent "Perhaps" responses...  increases.
 
-### Formulas
-tbd.
   

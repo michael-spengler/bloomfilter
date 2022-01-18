@@ -1,3 +1,5 @@
+// https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
+
 import crc32 from 'https://deno.land/x/hash/mod-crc32.ts'
 import BitSet from "https://cdn.esm.sh/v57/bitset@5.1.1/es2021/bitset.js"
 
@@ -9,28 +11,21 @@ export enum EBloomBool {
 
 export class BloomFilter {
 
-    public static getInstanceBasedOnNumberOfBits(numberOfBitsUsed: number, hashFunctionURLS: string[] = ["https://deno.land/x/hash/mod-crc32.ts"]): BloomFilter {
-        const instance = new BloomFilter(numberOfBitsUsed, undefined, hashFunctionURLS)
-        return instance
+    public static getOptimalNumberOfBits(numberOfExpectedItems: number, falsePositiveRate: number): number {
+        const optimalNumberOfBits = Math.ceil((numberOfExpectedItems * Math.log(falsePositiveRate)) / Math.log(1 / Math.pow(2, Math.log(2))))
+        return Math.round(optimalNumberOfBits)
     }
 
-    public static getInstanceBasedOnNumberOfExpectedItems(numberOfExpectedItems: number, hashFunctionURLS: string[] = ["https://deno.land/x/hash/mod-crc32.ts"]): BloomFilter {
-        const instance = new BloomFilter(undefined, numberOfExpectedItems, hashFunctionURLS)
-        return instance
-    }
-
-    public static getOptimalNumberOfBitsAndHashFunctions(numberOfExpectedItems: number, falsePositiveValue: number): number {
-        const optimalNumberOfBitsAndHashFunctions = -1 * (numberOfExpectedItems * Math.log(falsePositiveValue)) / Math.pow((Math.log(2)), 2)
-        return Math.round(optimalNumberOfBitsAndHashFunctions)
+    public static getOptimalNumberOfHashFunctions(numberOfBitsInBitset: number, numberOfExpectedItems: number) {
+        return Math.round((numberOfBitsInBitset / numberOfExpectedItems) * Math.log(2))
     }
 
     private bitSet: any
 
-    private constructor(private numberOfBitsUsed: number | undefined, private numberOfExpectedItems: number | undefined, private hashFunctionURLS: string[]) {
+    public constructor(private numberOfBitsUsed: number, private numberOfHashFunctions: number = 1) {
         this.bitSet = new BitSet()
-
-        if (this.numberOfBitsUsed === undefined) {
-            // this.numberOfBitsUsed = tbd mit einer Formel?
+        if (numberOfHashFunctions > 1) {
+            console.log(`Warning: currently this module only works with one hash function for demo reasons`)
         }
     }
 

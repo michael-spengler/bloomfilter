@@ -1,6 +1,14 @@
+// https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
+// import { BloomFilter } from "./mod.ts"
 import { BloomFilter } from "https://deno.land/x/bloomfilter/mod.ts"
 
-const bloomFilter = new BloomFilter(128)
+const numberOfExpectedItemsInArray = 10000
+const falsePositiveRate = 0.1 // 10 percent
+
+const numberOfBitsInBitset = BloomFilter.getOptimalNumberOfBits(numberOfExpectedItemsInArray, falsePositiveRate)
+const numberOfHashFunctions = BloomFilter.getOptimalNumberOfHashFunctions(numberOfBitsInBitset, numberOfExpectedItemsInArray)
+
+const bloomFilter = new BloomFilter(numberOfBitsInBitset, numberOfHashFunctions)
 
 const testArray = ["dog", "chicken", "cat"]
 
