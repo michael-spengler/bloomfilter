@@ -19,7 +19,7 @@ const numberOfExpectedItemsInArray = 10000
 const falsePositiveRate = 0.1 // 10 percent
 
 const numberOfBitsInBitset = BloomFilter.getOptimalNumberOfBits(numberOfExpectedItemsInArray, falsePositiveRate)
-const numberOfHashFunctions = BloomFilter.getOptimalNumberOfHashFunctions(numberOfBitsInBitset, numberOfExpectedItemsInArray))
+const numberOfHashFunctions = BloomFilter.getOptimalNumberOfHashFunctions(numberOfBitsInBitset, numberOfExpectedItemsInArray)
 
 const bloomFilter = new BloomFilter(numberOfBitsInBitset, numberOfHashFunctions)
 
