@@ -43,7 +43,7 @@ For further examples you can check the [unit tests](https://github.com/michael-s
 
 
 ## Considering Optimization Options
-See // https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
+See https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
 
 ### Number of Hash Functions
 Increasing the number of hash functions used for the Bloomfilter (Bitset) population increases the probability that a specific item from the array is in fact represented by a specific (set) of bit(s). 
