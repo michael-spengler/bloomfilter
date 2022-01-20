@@ -29,8 +29,9 @@ export class BloomFilter {
         }
     }
 
-    public add(entry: string | number, ...hashFunctions: any): void {
+    public add(entry: string | number, ...hashFunctions: ((entry: number) => number)[]): void {
         let position
+
         if (!hashFunctions.length) {
             const crc32hash = this.generateCRC32Hash(entry.toString())
             position = crc32hash % this.numberOfBitsUsed
@@ -43,12 +44,10 @@ export class BloomFilter {
                 }
                 this.bitSet.set(position, 1)
             }
-
         }
     }
 
-    public test(entry: string | number, ...hashFunctions: any): EBloomBool {
-
+    public test(entry: string | number, ...hashFunctions: ((entry: number) => number)[]): EBloomBool {
         let position
 
         if (!hashFunctions.length) {
@@ -57,22 +56,17 @@ export class BloomFilter {
             if (this.bitSet.get(position) === 1) {
                 return EBloomBool.PERHAPS
             }
-
         } else {
             for (const hashFunction of hashFunctions) {
                 position = hashFunction(entry)
-                console.log(position, this.bitSet.get(position))
+
                 if (this.bitSet.get(position) === 0) {
                     return EBloomBool.NO
                 }
             }
             return EBloomBool.PERHAPS
-
         }
-
         return EBloomBool.NO
-
-
     }
 
     private generateCRC32Hash(entry: string): number {
