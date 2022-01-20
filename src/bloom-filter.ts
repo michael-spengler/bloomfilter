@@ -29,25 +29,49 @@ export class BloomFilter {
         }
     }
 
-    public add(entry: string): void {
+    public add(entry: string | number, ...hashFunctions: any): void {
+        let position
+        if (!hashFunctions.length) {
+            const crc32hash = this.generateCRC32Hash(entry.toString())
+            position = crc32hash % this.numberOfBitsUsed
+            this.bitSet.set(position, 1)
+        } else {
+            for (const hashFunction of hashFunctions) {
+                position = hashFunction(entry)
+                if (position > this.numberOfBitsUsed - 1) {
+                    throw new Error(`The calculated position ${position} exceeds the Bitset size ${this.numberOfBitsUsed}`)
+                }
+                this.bitSet.set(position, 1)
+            }
 
-        const crc32hash = this.generateCRC32Hash(entry)
-        const position = crc32hash % (this.numberOfBitsUsed as number)
-
-        this.bitSet.set(position, 1)
-
+        }
     }
 
-    public test(entry: string): EBloomBool {
+    public test(entry: string | number, ...hashFunctions: any): EBloomBool {
 
-        const hash = this.generateCRC32Hash(entry)
-        const position = hash % (this.numberOfBitsUsed as number)
+        let position
 
-        if (this.bitSet.get(position) === 1) {
+        if (!hashFunctions.length) {
+            const hash = this.generateCRC32Hash(entry.toString())
+            position = hash % this.numberOfBitsUsed
+            if (this.bitSet.get(position) === 1) {
+                return EBloomBool.PERHAPS
+            }
+
+        } else {
+            for (const hashFunction of hashFunctions) {
+                position = hashFunction(entry)
+                console.log(position, this.bitSet.get(position))
+                if (this.bitSet.get(position) === 0) {
+                    return EBloomBool.NO
+                }
+            }
             return EBloomBool.PERHAPS
+
         }
 
         return EBloomBool.NO
+
 
     }
 
