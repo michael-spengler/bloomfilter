@@ -21,22 +21,23 @@ export class BloomFilter {
     }
 
     private bitSet: any
+    private hashFunctions: any
 
-    public constructor(private numberOfBitsUsed: number, private numberOfHashFunctions: number = 1) {
+    public constructor(private numberOfBitsUsed: number, ...hashFunctions: any) {
         this.bitSet = new BitSet()
-        if (numberOfHashFunctions > 1) {
-            console.log(`Warning: currently this module only works with one hash function for demo reasons`)
-        }
+        this.hashFunctions = hashFunctions
+        console.log(`Warning: currently this module only works with one hash function for demo reasons`)
     }
 
-    public add(entry: string | number, ...hashFunctions: any): void {
+    public add(entry: string | number): void {
+
         let position
-        if (!hashFunctions.length) {
+        if (!this.hashFunctions.length) {
             const crc32hash = this.generateCRC32Hash(entry.toString())
             position = crc32hash % this.numberOfBitsUsed
             this.bitSet.set(position, 1)
         } else {
-            for (const hashFunction of hashFunctions) {
+            for (const hashFunction of this.hashFunctions) {
                 position = hashFunction(entry)
                 if (position > this.numberOfBitsUsed - 1) {
                     throw new Error(`The calculated position ${position} exceeds the Bitset size ${this.numberOfBitsUsed}`)
@@ -47,11 +48,11 @@ export class BloomFilter {
         }
     }
 
-    public test(entry: string | number, ...hashFunctions: any): EBloomBool {
+    public test(entry: string | number): EBloomBool {
 
         let position
 
-        if (!hashFunctions.length) {
+        if (!this.hashFunctions.length) {
             const hash = this.generateCRC32Hash(entry.toString())
             position = hash % this.numberOfBitsUsed
             if (this.bitSet.get(position) === 1) {
@@ -59,9 +60,8 @@ export class BloomFilter {
             }
 
         } else {
-            for (const hashFunction of hashFunctions) {
+            for (const hashFunction of this.hashFunctions) {
                 position = hashFunction(entry)
-                console.log(position, this.bitSet.get(position))
                 if (this.bitSet.get(position) === 0) {
                     return EBloomBool.NO
                 }

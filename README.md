@@ -1,9 +1,9 @@
 # Bloom Filter
-
 Bloom Filters are efficient probabilistic data structures which you can use to check whether entries are potentially already [in an array or not](https://www.youtube.com/watch?v=gBygn3cVP80).
 
 ## Usage Examples
 
+### Default Hash Function
 ```sh
 
 deno run https://deno.land/x/bloomfilter/usage-example.ts
@@ -36,6 +36,36 @@ actualTestResult = bloomFilter.test("cat")
 console.log(actualTestResult)
 
 ```
+
+
+### Custom Hash Functions
+```ts
+
+import { BloomFilter } from "https://deno.land/x/bloomfilter/mod.ts"
+
+const numberOfExpectedItemsInArray = 10000
+const falsePositiveRate = 0.1 // 10 percent
+
+const numberOfBitsInBitset = BloomFilter.getOptimalNumberOfBits(numberOfExpectedItemsInArray, falsePositiveRate)
+
+const bloomFilter = new BloomFilter(numberOfBitsInBitset, (x: number) => (x * 2) % 11, (x: number) => (x * 3) % 11, (x: number) => (x * 4) % 11)
+
+const exampleArray = [2, 5, 6]
+
+for (const entry of exampleArray) {
+    bloomFilter.add(entry)
+}
+
+
+let actualTestResult = bloomFilter.test(3)
+console.log(actualTestResult)
+
+actualTestResult = bloomFilter.test(34)
+console.log(actualTestResult)
+
+```
+
+
 
 ---
   

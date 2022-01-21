@@ -6,18 +6,18 @@ const numberOfExpectedItemsInArray = 10000
 const falsePositiveRate = 0.1 // 10 percent
 
 const numberOfBitsInBitset = BloomFilter.getOptimalNumberOfBits(numberOfExpectedItemsInArray, falsePositiveRate)
-// const numberOfHashFunctions = BloomFilter.getOptimalNumberOfHashFunctions(numberOfBitsInBitset, numberOfExpectedItemsInArray)
 
-const bloomFilter = new BloomFilter(numberOfBitsInBitset)
+const bloomFilter = new BloomFilter(numberOfBitsInBitset, (x: number) => (x * 2) % 11, (x: number) => (x * 3) % 11, (x: number) => (x * 4) % 11)
 
-const testArray = ["dog", "chicken", "cat"]
+const exampleArray = [2, 5, 6]
 
-for (const entry of testArray) {
+for (const entry of exampleArray) {
     bloomFilter.add(entry)
 }
 
-let actualTestResult = bloomFilter.test("horse")
+
+let actualTestResult = bloomFilter.test(3)
 console.log(actualTestResult)
 
-actualTestResult = bloomFilter.test("cat")
+actualTestResult = bloomFilter.test(34)
 console.log(actualTestResult)
