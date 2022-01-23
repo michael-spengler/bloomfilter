@@ -3,9 +3,9 @@ import { BloomFilter, EBloomBool } from "./bloom-filter.ts"
 
 Deno.test("should handle function handovers", async () => {
 
-    const bloomFilter = new BloomFilter(10, (x: number) => x * 2 % 10, (x: number) => x * 3 % 10, (x: number) => x * 4 % 10)
+    const bloomFilter = new BloomFilter(11, (x: number) => x * 2 % 11, (x: number) => x * 3 % 11, (x: number) => x * 4 % 11)
 
-    const exampleArray = [6, 9, 10]
+    const exampleArray = [6, 9, 14]
 
     for (const entry of exampleArray) {
         bloomFilter.add(entry)
@@ -13,7 +13,7 @@ Deno.test("should handle function handovers", async () => {
 
     assertEquals(bloomFilter.test(11), EBloomBool.NO)
     assertEquals(bloomFilter.test(6), EBloomBool.PERHAPS)
-    assertEquals(bloomFilter.test(3), EBloomBool.NO)
+    assertEquals(bloomFilter.test(3), EBloomBool.PERHAPS)
 })
 
 Deno.test("should return EBloomBool.NO if entry is not yet added", async () => {
