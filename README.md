@@ -65,7 +65,10 @@ console.log(actualTestResult)
 
 ```
 
-
+## Execute Unit Tests
+```sh
+deno test https://deno.land/x/bloomfilter/src/bloom-filter.spec.ts
+```
 
 ---
   
