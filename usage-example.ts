@@ -1,5 +1,5 @@
 // https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
-// import { BloomFilter } from "./mod.ts"
+
 import { BloomFilter } from "https://deno.land/x/bloomfilter/mod.ts"
 
 const numberOfExpectedItemsInArray = 10000

@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.86.0/testing/asserts.ts"
+import { assertEquals } from "../deps.ts"
 import { BloomFilter, EBloomBool } from "./bloom-filter.ts"
 
 Deno.test("should handle function handovers", async () => {

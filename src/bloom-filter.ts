@@ -1,7 +1,6 @@
 // https://hur.st/bloomfilter/?n=100000&p=0.6&m=&k=
 
-import crc32 from 'https://deno.land/x/hash/mod-crc32.ts'
-import BitSet from "https://cdn.esm.sh/v57/bitset@5.1.1/es2021/bitset.js"
+import {crc32, BitSet} from '../deps.ts'
 
 
 export enum EBloomBool {
